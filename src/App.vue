@@ -1,13 +1,10 @@
 <template>
-  <Index />
+  <Router-view />
 </template>
 
 <script>
-import Index from './components/index.vue'
 export default {
-  components: {
-    Index
-  }
+
 }
 </script>
 

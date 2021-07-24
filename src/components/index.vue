@@ -1,16 +1,27 @@
 <template>
   <div>
-    <div>{{yearGanZh}}</div>
-    <div>{{monthGanZh}}</div>
-    <div>{{dayGanZh}}</div>
-    <div>{{timeGanZh}}</div>
+    <div>
+      <div>{{yearGanZh}}</div>
+      <div>{{monthGanZh}}</div>
+      <div>{{dayGanZh}}</div>
+      <div>{{timeGanZh}}</div>
+      <button @click="luner()">test</button>
+      <div>
+        <span>inputmonth</span>
+        {{inputmonth}}</div>
+      <div>{{birthday}}</div>
+    </div>
   </div>
 </template>
 
 <script>
+import solarLunar from 'solarlunar'
 export default {
   data () {
     return {
+      inputmonth: {
+        month: 10
+      },
       birthday: {
         year: 2021,
         month: 6,
@@ -50,7 +61,57 @@ export default {
         '庚子', '辛丑', '壬寅', '癸卯', '甲辰', '乙巳', '丙午', '丁未', '戊申', '已酉', '庚戌', '辛亥',
         '壬子', '癸丑', '甲寅', '乙卯', '丙辰', '丁巳', '戊午', '已未', '庚申', '辛酉', '壬戌'
       ],
-      dayCount: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30]
+      dayCount: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30],
+      lunerMonth: [
+        {
+          name: '正月',
+          month: 1
+        },
+        {
+          name: '二月',
+          month: 2
+        },
+        {
+          name: '三月',
+          month: 3
+        },
+        {
+          name: '四月',
+          month: 4
+        },
+        {
+          name: '五月',
+          month: 5
+        },
+        {
+          name: '六月',
+          month: 6
+        },
+        {
+          name: '七月',
+          month: 7
+        },
+        {
+          name: '八月',
+          month: 8
+        },
+        {
+          name: '九月',
+          month: 9
+        },
+        {
+          name: '十月',
+          month: 10
+        },
+        {
+          name: '十一月',
+          month: 11
+        },
+        {
+          name: '臘月',
+          month: 12
+        }
+      ]
     }
   },
   methods: {
@@ -63,6 +124,13 @@ export default {
         }
       }
       return Convert()
+    },
+    luner () {
+      const birthday = this.birthday
+      const solar2lunarData = solarLunar.solar2lunar(birthday.year, this.inputmonth.month, birthday.day) // 輸入的日子為國曆
+      const monthTarget = this.lunerMonth.find(p => p.name === solar2lunarData.monthCn)
+      birthday.month = monthTarget.month
+      console.log(birthday)
     }
   },
   computed: {
@@ -131,6 +199,7 @@ export default {
         }
       }
       const dayNum = () => {
+        /* 要取的日子總數 */
         const monthSum = this.dayCount.reduce((acc, item, index) => {
           if (index >= month - 1) {
             return acc
@@ -141,10 +210,7 @@ export default {
       }
       const dayGanZhNumber = () => {
         /*
-        1、1901年——2000年日柱計算公式：干支序數＝(5×（公元年最後兩位數－1）﹢〔（公元年最後兩位數－1）÷4〕﹢出生日在當年的天數﹢15) % 60
-
-        2、2001年——2100年公曆計算日柱公式：干支總序數＝(5×（公元年最後兩位數－1）﹢〔（公元年最後兩位數－1）÷4〕﹢出生日在當年的天數) % 60
-
+        [(民國年-10)*5 + (民國年-10) /4 取整數 + 該年的要取的日子總數] 取餘數
         */
         const miangou = year - 1911
         if (leapYear === 1 && month > 3) {
@@ -152,11 +218,6 @@ export default {
         } else {
           return ((miangou - 10) * 5 + Math.floor((miangou - 10) / 4) + dayNum()) % 60
         }
-        // if (year <= 2000 && year >= 1901) {
-        //   return (5 * (year - 1901) + Math.floor((year - 1901) / 4) + dayNum() + 15 + leapYear()) % 60
-        // } else if (year > 2000 && year <= 2099) {
-        //   return (5 * (year - 2001) + Math.floor((year - 2001) / 4) + dayNum() + leapYear()) % 60
-        // }
       }
       const toStr = this.jiaZi[dayGanZhNumber()].split('')
       return {
