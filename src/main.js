@@ -4,7 +4,7 @@ import './scss/style.scss'
 import { createRouter, createWebHistory } from 'vue-router'
 import Input from './components/Input.vue'
 import Index from './components/Index.vue'
-
+import store from './store/index'
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -18,4 +18,4 @@ const router = createRouter({
     }
   ]
 })
-createApp(App).use(router).mount('#app')
+createApp(App).use(router).use(store).mount('#app')

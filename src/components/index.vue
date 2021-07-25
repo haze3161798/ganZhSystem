@@ -17,6 +17,15 @@
 <script>
 import solarLunar from 'solarlunar'
 export default {
+  created () {
+    this.birthday = this.birthdayData
+  },
+  props: {
+    birthdayData: {
+      type: Object,
+      default: () => ({})
+    }
+  },
   data () {
     return {
       inputmonth: {
