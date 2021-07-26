@@ -109,7 +109,8 @@ export default {
       若問戊癸何方發
       甲寅之上好追求
       */
-      const month = this.birthday.month
+      const month = this.birthday.lunerMonth
+      console.log(month)
       const monthTianGan = () => {
         if (this.yearGanZh.yearGan[1] === 1 || this.yearGanZh.yearGan[1] === 6) {
           return this.tianGan[this.tianGanConvert(month + 2)]

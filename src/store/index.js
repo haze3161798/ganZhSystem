@@ -6,7 +6,8 @@ const store = createStore({
       year: 0,
       month: 0,
       day: 0,
-      time: 0
+      time: 0,
+      lunerMonth: 0
     }
   },
   mutations: {
@@ -16,6 +17,7 @@ const store = createStore({
       birthday.month = value.month
       birthday.day = value.day
       birthday.time = value.time
+      birthday.lunerMonth = value.lunerMonth
     }
   }
 })

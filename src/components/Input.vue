@@ -58,7 +58,7 @@
       </div>
     </form>
     <div>{{birthdayData}}</div>
-    <button @click="test" class="btn btn-primary">test</button>
+    <button @click="submit" class="btn btn-primary">test</button>
   </div>
 </template>
 
@@ -133,7 +133,8 @@ export default {
         year: 0,
         month: 0,
         day: 0,
-        time: 0
+        time: 0,
+        lunerMonth: 0
       }
 
     }
@@ -148,12 +149,13 @@ export default {
       const birthdayData = this.birthdayData
       const solar2lunarData = solarLunar.solar2lunar(birthdayData.year, birthdayData.month, birthdayData.day) // 輸入的日子為國曆
       const monthTarget = this.lunerMonth.find(p => p.name === solar2lunarData.monthCn)
-      birthdayData.month = monthTarget.month
+      birthdayData.lunerMonth = monthTarget.month
       console.log(solarLunar.solar2lunar(birthdayData.year, birthdayData.month, birthdayData.day))
     },
     submit () {
       this.luner()
       this.setBirthday(this.birthdayData)
+      console.log(this.birthday)
     },
     dayCount () {
       const leepmonth = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
