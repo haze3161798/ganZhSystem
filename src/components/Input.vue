@@ -58,7 +58,7 @@
       </div>
     </form>
     <div>{{birthdayData}}</div>
-    <button @click="submit" class="btn btn-primary">test</button>
+    <button @click="test" class="btn btn-primary">test</button>
   </div>
 </template>
 
@@ -119,11 +119,11 @@ export default {
           month: 10
         },
         {
-          name: '十一月',
+          name: '冬月',
           month: 11
         },
         {
-          name: '臘月',
+          name: '腊月',
           month: 12
         }
       ],
@@ -142,19 +142,18 @@ export default {
     ...mapMutations([
       'setBirthday'
     ]),
+    test () {
+    },
     luner () {
       const birthdayData = this.birthdayData
       const solar2lunarData = solarLunar.solar2lunar(birthdayData.year, birthdayData.month, birthdayData.day) // 輸入的日子為國曆
       const monthTarget = this.lunerMonth.find(p => p.name === solar2lunarData.monthCn)
       birthdayData.month = monthTarget.month
-      console.log(birthdayData)
-      // console.log(solar2lunarData)
-      // console.log(monthTarget)
+      console.log(solarLunar.solar2lunar(birthdayData.year, birthdayData.month, birthdayData.day))
     },
     submit () {
       this.luner()
       this.setBirthday(this.birthdayData)
-      console.log(this.birthday)
     },
     dayCount () {
       const leepmonth = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]

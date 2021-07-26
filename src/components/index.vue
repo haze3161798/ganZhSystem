@@ -77,11 +77,25 @@ export default {
     yearGanZh () {
       // 年干支計算公式
       const year = this.birthday.year
-      const yearTianGan = (year - 3) % 10
-      const yearDiZh = (year - 3) % 12
+      const yearTianGan = () => {
+        const yearGanNum = year % 10 - 3
+        if (yearGanNum >= 0) {
+          return yearGanNum
+        } else {
+          return yearGanNum + 10
+        }
+      }
+      const yearDiZh = () => {
+        const yearZhNum = year % 12 - 3
+        if (yearZhNum >= 0) {
+          return yearZhNum
+        } else {
+          return yearZhNum + 12
+        }
+      }
       return {
-        yearGan: [this.tianGan[yearTianGan], yearTianGan],
-        yearZh: [this.diZh[yearDiZh], yearDiZh]
+        yearGan: [this.tianGan[yearTianGan()], yearTianGan()],
+        yearZh: [this.diZh[yearDiZh()], yearDiZh()]
       }
     },
     monthGanZh () {
@@ -132,7 +146,7 @@ export default {
       const leapYear = () => {
         // 閏年計算 1為平年
         switch (true) {
-          case year % 4 === 0:
+          case year % 4 === 0 && month >= 3:
             return 1
           default:
             return 0
@@ -141,7 +155,7 @@ export default {
       const dayNum = () => {
         /* 要取的日子總數 */
         const monthSum = this.dayCount.reduce((acc, item, index) => {
-          if (index >= month - 1) {
+          if (index >= month + 1) {
             return acc
           }
           return acc + item
@@ -149,14 +163,11 @@ export default {
         return monthSum + day
       }
       const dayGanZhNumber = () => {
-        /*
-        [(民國年-10)*5 + (民國年-10) /4 取整數 + 該年的要取的日子總數] 取餘數
-        */
-        const miangou = year - 1911
-        if (leapYear === 1 && month > 3) {
-          return ((miangou - 10) * 5 + Math.floor((miangou - 10) / 4) + dayNum() + leapYear()) % 60
+        /* [(西元年尾數-10)*5 + (西元年尾數-10) /4 取整數 + 該年的要取的日子總數] 取餘數 */
+        if (year <= 2000) {
+          return ((year - 1901) * 5 + Math.floor((year - 1901) / 4) + dayNum() + 15 + leapYear()) % 60
         } else {
-          return ((miangou - 10) * 5 + Math.floor((miangou - 10) / 4) + dayNum()) % 60
+          return ((year - 2001) * 5 + Math.floor((year - 2001) / 4) + dayNum() + leapYear()) % 60
         }
       }
       const toStr = this.jiaZi[dayGanZhNumber()].split('')
