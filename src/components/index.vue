@@ -1,5 +1,58 @@
 <template>
   <div>
+    <div class="container py-4">
+      <table>
+        <colgroup>
+          <col style="width:22.5%"/>
+          <col style="width:22.5%"/>
+          <col style="width:22.5%"/>
+          <col style="width:22.5%"/>
+          <col style="width:10%"/>
+        </colgroup>
+        <tr class="table-border text-center">
+          <td class="table-border table-width">時柱</td>
+          <td class="table-border table-width">日柱</td>
+          <td class="table-border table-width">月柱</td>
+          <td class="table-border table-width">年柱</td>
+          <td class="table-border table-width">時間</td>
+        </tr>
+        <tr class="table-border text-center">
+          <td class="table-border table-width">十神</td>
+          <td class="table-border table-width">日元</td>
+          <td class="table-border table-width">十神</td>
+          <td class="table-border table-width">十神</td>
+          <td class="table-border table-width">干十神</td>
+        </tr>
+        <tr class="table-border text-center">
+          <td class="table-border table-width">{{timeGanZh.timeGan}}</td>
+          <td class="table-border table-width">{{dayGanZh.dayGan}}</td>
+          <td class="table-border table-width">{{monthGanZh.monthGan}}</td>
+          <td class="table-border table-width">{{yearGanZh.yearGan[0]}}</td>
+          <td class="table-border table-width">天干</td>
+        </tr>
+        <tr class="table-border text-center">
+          <td class="table-border table-width">{{timeGanZh.timeZh}}</td>
+          <td class="table-border table-width">{{dayGanZh.dayZh}}</td>
+          <td class="table-border table-width">{{monthGanZh.monthZh}}</td>
+          <td class="table-border table-width">{{yearGanZh.yearZh[0]}}</td>
+          <td class="table-border table-width">地支</td>
+        </tr>
+        <tr class="table-border text-center">
+          <td class="table-border table-width">藏干</td>
+          <td class="table-border table-width">藏干</td>
+          <td class="table-border table-width">藏干</td>
+          <td class="table-border table-width">藏干</td>
+          <td class="table-border table-width">藏干</td>
+        </tr>
+        <tr class="table-border text-center">
+          <td class="table-border table-width">十神</td>
+          <td class="table-border table-width">十神</td>
+          <td class="table-border table-width">十神</td>
+          <td class="table-border table-width">十神</td>
+          <td class="table-border table-width">支十神</td>
+        </tr>
+      </table>
+    </div>
     <div>
       <div>{{yearGanZh}}</div>
       <div>{{monthGanZh}}</div>
@@ -163,6 +216,7 @@ export default {
         }, 0)
         return monthSum + day
       }
+      console.log(leapYear())
       const dayGanZhNumber = () => {
         /* [(西元年尾數-10)*5 + (西元年尾數-10) /4 取整數 + 該年的要取的日子總數] 取餘數 */
         if (year <= 2000) {
@@ -227,6 +281,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.table-border{
+  border:1px solid black
+}
 </style>
