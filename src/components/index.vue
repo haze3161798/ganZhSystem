@@ -1,5 +1,7 @@
 <template>
   <div>
+    <div>{{ganZhNum}}</div>
+    <div>{{yearGanZh}}</div>
     <div class="container py-4">
       <table>
         <colgroup>
@@ -14,7 +16,7 @@
           <td class="table-border table-width">日柱</td>
           <td class="table-border table-width">月柱</td>
           <td class="table-border table-width">年柱</td>
-          <td class="table-border table-width">時間</td>
+          <td class="table-border table-width">四柱</td>
         </tr>
         <tr class="table-border text-center">
           <td class="table-border table-width">十神</td>
@@ -24,17 +26,17 @@
           <td class="table-border table-width">干十神</td>
         </tr>
         <tr class="table-border text-center">
-          <td class="table-border table-width">{{timeGanZh.timeGan}}</td>
-          <td class="table-border table-width">{{dayGanZh.dayGan}}</td>
-          <td class="table-border table-width">{{monthGanZh.monthGan}}</td>
-          <td class="table-border table-width">{{yearGanZh.yearGan[0]}}</td>
+          <td class="table-border table-width">{{tianGan[ganZhNum.yearGan]}}</td>
+          <td class="table-border table-width">{{tianGan[ganZhNum.dayGan]}}</td>
+          <td class="table-border table-width">{{tianGan[ganZhNum.monthGan]}}</td>
+          <td class="table-border table-width">{{tianGan[ganZhNum.yearGan]}}</td>
           <td class="table-border table-width">天干</td>
         </tr>
         <tr class="table-border text-center">
-          <td class="table-border table-width">{{timeGanZh.timeZh}}</td>
-          <td class="table-border table-width">{{dayGanZh.dayZh}}</td>
-          <td class="table-border table-width">{{monthGanZh.monthZh}}</td>
-          <td class="table-border table-width">{{yearGanZh.yearZh[0]}}</td>
+          <td class="table-border table-width">{{diZh[ganZhNum.yearZh]}}</td>
+          <td class="table-border table-width">{{diZh[ganZhNum.dayZh]}}</td>
+          <td class="table-border table-width">{{diZh[ganZhNum.monthZh]}}</td>
+          <td class="table-border table-width">{{diZh[ganZhNum.yearZh]}}</td>
           <td class="table-border table-width">地支</td>
         </tr>
         <tr class="table-border text-center">
@@ -54,25 +56,15 @@
       </table>
     </div>
     <div>
-      <div>{{yearGanZh}}</div>
-      <div>{{monthGanZh}}</div>
-      <div>{{dayGanZh}}</div>
-      <div>{{timeGanZh}}</div>
-      <div>{{birthday}}</div>
+      <div>{{GanZh}}</div>
     </div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import solarLunar from 'solarlunar'
 export default {
-  created () {},
-  // props: {
-  //   birthdayData: {
-  //     type: Object,
-  //     default: () => ({})
-  //   }
-  // },
   data () {
     return {
       tianGan: {
@@ -125,110 +117,77 @@ export default {
   },
   computed: {
     ...mapState({
-      birthday: state => state.birthday
+      birthday: state => state.birthday,
+      ganZhNum: state => state.ganZhNum
     }),
-    yearGanZh () {
-      // 年干支計算公式
-      const year = this.birthday.year
-      const yearTianGan = () => {
-        const yearGanNum = year % 10 - 3
-        if (yearGanNum >= 0) {
-          return yearGanNum
-        } else {
-          return yearGanNum + 10
-        }
-      }
-      const yearDiZh = () => {
-        const yearZhNum = year % 12 - 3
-        if (yearZhNum >= 0) {
-          return yearZhNum
-        } else {
-          return yearZhNum + 12
-        }
-      }
-      return {
-        yearGan: [this.tianGan[yearTianGan()], yearTianGan()],
-        yearZh: [this.diZh[yearDiZh()], yearDiZh()]
-      }
-    },
-    monthGanZh () {
-      /*
-      月干支計算公式
-      五虎遁
-      甲己之年丙作首
-      乙庚之年戊為頭
-      丙辛之歲尋庚上
-      丁壬壬寅順水流
-      若問戊癸何方發
-      甲寅之上好追求
-      */
-      const month = this.birthday.lunerMonth
-      console.log(month)
-      const monthTianGan = () => {
-        if (this.yearGanZh.yearGan[1] === 1 || this.yearGanZh.yearGan[1] === 6) {
-          return this.tianGan[this.tianGanConvert(month + 2)]
-        } else if (this.yearGanZh.yearGan[1] === 2 || this.yearGanZh.yearGan[1] === 7) {
-          return this.tianGan[this.tianGanConvert(month + 4)]
-        } else if (this.yearGanZh.yearGan[1] === 3 || this.yearGanZh.yearGan[1] === 8) {
-          return this.tianGan[this.tianGanConvert(month + 6)]
-        } else if (this.yearGanZh.yearGan[1] === 4 || this.yearGanZh.yearGan[1] === 9) {
-          return this.tianGan[this.tianGanConvert(month + 8)]
-        } else if (this.yearGanZh.yearGan[1] === 5 || this.yearGanZh.yearGan[1] === 0) {
-          return this.tianGan[this.tianGanConvert(month)]
-        }
-      }
-      const monthDiZh = () => {
-        if (month <= 9) {
-          return this.diZh[month + 2]
-        } else {
-          return this.diZh[month - 10]
-        }
-      }
-      return {
-        monthGan: monthTianGan(),
-        monthZh: monthDiZh()
-      }
-    },
-    dayGanZh () {
-      let day = this.birthday.day
-      const month = this.birthday.month
-      const year = this.birthday.year
-      if (this.birthday.time === 23) {
-        // 早晚子判斷
-        day = this.birthday.day + 1
-      }
-      const leapYear = () => {
-        // 閏年計算 1為平年
+    GanZhNum (gan, zh) {
+      const ganNum = () => {
         switch (true) {
-          case year % 4 === 0 && month >= 3:
+          case gan === '甲':
             return 1
-          default:
+          case gan === '乙':
+            return 2
+          case gan === '丙':
+            return 3
+          case gan === '丁':
+            return 4
+          case gan === '戊':
+            return 5
+          case gan === '己':
+            return 6
+          case gan === '庚':
+            return 7
+          case gan === '辛':
+            return 8
+          case gan === '壬':
+            return 9
+          case gan === '癸':
             return 0
         }
       }
-      const dayNum = () => {
-        /* 要取的日子總數 */
-        const monthSum = this.dayCount.reduce((acc, item, index) => {
-          if (index >= month + 1) {
-            return acc
-          }
-          return acc + item
-        }, 0)
-        return monthSum + day
-      }
-      console.log(leapYear())
-      const dayGanZhNumber = () => {
-        /* [(西元年尾數-10)*5 + (西元年尾數-10) /4 取整數 + 該年的要取的日子總數] 取餘數 */
-        if (year <= 2000) {
-          return ((year - 1901) * 5 + Math.floor((year - 1901) / 4) + dayNum() + 15 + leapYear()) % 60
-        } else {
-          return ((year - 2001) * 5 + Math.floor((year - 2001) / 4) + dayNum() + leapYear()) % 60
+      const zhNum = () => {
+        switch (true) {
+          case zh === '子':
+            return 1
+          case zh === '丑':
+            return 2
+          case zh === '寅':
+            return 3
+          case zh === '卯':
+            return 4
+          case zh === '辰':
+            return 5
+          case zh === '巳':
+            return 6
+          case zh === '午':
+            return 7
+          case zh === '未':
+            return 8
+          case zh === '申':
+            return 9
+          case zh === '酉':
+            return 10
+          case zh === '戌':
+            return 11
+          case zh === '亥':
+            return 0
         }
       }
-      const toStr = this.jiaZi[dayGanZhNumber()].split('')
       return {
-        dayGan: toStr[0],
-        dayZh: toStr[1]
+        gan: ganNum,
+        zh: zhNum
+      }
+    },
+    GanZh () {
+      const birthday = this.birthday
+      const solar2lunarData = solarLunar.solar2lunar(birthday.year, birthday.month, birthday.day)
+      return solar2lunarData
+    },
+    yearGanZh () {
+      const year = this.GanZh.gzYear.split('')
+      return {
+        yearGan: year[0],
+        yearzh: year[1]
       }
     },
     timeGanZh () {
