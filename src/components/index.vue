@@ -1,9 +1,7 @@
 <template>
   <div>
-    <div>{{ganZhNum}}</div>
-    <div>{{yearGanZh}}</div>
     <div class="container py-4">
-      <table>
+      <table class="mx-auto">
         <colgroup>
           <col style="width:22.5%"/>
           <col style="width:22.5%"/>
@@ -56,7 +54,6 @@
       </table>
     </div>
     <div>
-      <div>{{GanZh}}</div>
     </div>
   </div>
 </template>
@@ -99,8 +96,7 @@ export default {
         '戊子', '己丑', '庚寅', '辛卯', '壬辰', '癸巳', '甲午', '乙未', '丙申', '丁酉', '戊戌', '已亥',
         '庚子', '辛丑', '壬寅', '癸卯', '甲辰', '乙巳', '丙午', '丁未', '戊申', '已酉', '庚戌', '辛亥',
         '壬子', '癸丑', '甲寅', '乙卯', '丙辰', '丁巳', '戊午', '已未', '庚申', '辛酉', '壬戌'
-      ],
-      dayCount: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30]
+      ]
     }
   },
 

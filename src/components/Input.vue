@@ -1,7 +1,5 @@
 <template>
   <div class="container">
-    <div>{{birthdayData}}</div>
-    <div>{{ganZhNum}}</div>
     <form action="">
       <div class="py-5">
         <div class="d-md-flex justify-content-center py-md-2">
@@ -59,9 +57,6 @@
         </router-link>
       </div>
     </form>
-    <div>{{birthdayData}}</div>
-    <button @click="submit" class="btn btn-primary">test</button>
-    <div>{{}}</div>
   </div>
 </template>
 
@@ -84,9 +79,9 @@ export default {
       selectBirthdayYear: 148,
       selectBirthdayDay: 31,
       birthdayData: {
-        year: 1993,
-        month: 12,
-        day: 28,
+        year: 0,
+        month: 0,
+        day: 0,
         time: 0
       }
 
@@ -142,7 +137,6 @@ export default {
               return this.tianGanConvert(time + 8)
           }
         }
-        console.log(num())
         return this.tianGanConvert(num())
       }
       const timeDiZh = () => {
@@ -234,8 +228,10 @@ export default {
       const birthdayData = this.birthdayData
       if (birthdayData.time === 23 && birthdayData.day < this.selectBirthdayDay) {
         birthdayData.day += 1
+        birthdayData.time = 0
       } else if (birthdayData.time === 23 && birthdayData.day >= this.selectBirthdayDay) {
         birthdayData.day = 1
+        birthdayData.time = 0
         if (birthdayData.month >= 12) {
           birthdayData.month = 1
         } else {
@@ -249,7 +245,6 @@ export default {
       this.timeGanZh()
       this.setGanZhNum(this.ganZhNumData)
       this.setBirthday(this.birthdayData)
-      console.log(this.ganZhNum)
     },
     dayCount () {
       const leepmonth = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
