@@ -15,7 +15,8 @@ const store = createStore({
       monthZh: 0,
       dayGan: 0,
       dayZh: 0,
-      time: 0
+      timeGan: 0,
+      timeZh: 0
     }
   },
   mutations: {
@@ -27,7 +28,8 @@ const store = createStore({
       ganZhNum.monthZh = value.monthZh
       ganZhNum.dayGan = value.dayGan
       ganZhNum.dayZh = value.dayZh
-      ganZhNum.time = value.time
+      ganZhNum.timeGan = value.timeGan
+      ganZhNum.timeZh = value.timeZh
     },
     setBirthday (state, value) {
       const birthday = state.birthday

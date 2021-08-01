@@ -26,14 +26,14 @@
           <td class="table-border table-width">干十神</td>
         </tr>
         <tr class="table-border text-center">
-          <td class="table-border table-width">{{tianGan[ganZhNum.yearGan]}}</td>
+          <td class="table-border table-width">{{tianGan[ganZhNum.timeGan]}}</td>
           <td class="table-border table-width">{{tianGan[ganZhNum.dayGan]}}</td>
           <td class="table-border table-width">{{tianGan[ganZhNum.monthGan]}}</td>
           <td class="table-border table-width">{{tianGan[ganZhNum.yearGan]}}</td>
           <td class="table-border table-width">天干</td>
         </tr>
         <tr class="table-border text-center">
-          <td class="table-border table-width">{{diZh[ganZhNum.yearZh]}}</td>
+          <td class="table-border table-width">{{diZh[ganZhNum.timeZh]}}</td>
           <td class="table-border table-width">{{diZh[ganZhNum.dayZh]}}</td>
           <td class="table-border table-width">{{diZh[ganZhNum.monthZh]}}</td>
           <td class="table-border table-width">{{diZh[ganZhNum.yearZh]}}</td>
@@ -103,18 +103,7 @@ export default {
       dayCount: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30]
     }
   },
-  methods: {
-    tianGanConvert (gan) {
-      const Convert = () => {
-        if (gan > 9) {
-          return gan - 10
-        } else {
-          return gan
-        }
-      }
-      return Convert()
-    }
-  },
+
   computed: {
     ...mapState({
       birthday: state => state.birthday,
@@ -188,52 +177,6 @@ export default {
       return {
         yearGan: year[0],
         yearzh: year[1]
-      }
-    },
-    timeGanZh () {
-      /*
-      日干支計算公式
-      五鼠遁
-      甲己還生甲，
-      乙庚丙作初，
-      丙辛從戊起，
-      丁壬庚子居，
-      戊癸何方發，
-      壬子是真途。
-       */
-      const time = Math.ceil(this.birthday.time / 2) + 1
-      const dayGan = this.dayGanZh.dayGan
-      const diZh = this.diZh
-      const timeTianGan = () => {
-        const num = () => {
-          switch (true) {
-            case dayGan === '甲' || dayGan === '己':
-              return this.tianGanConvert(time)
-            case dayGan === '乙' || dayGan === '庚':
-              return this.tianGanConvert(time + 2)
-            case dayGan === '丙' || dayGan === '辛':
-              return this.tianGanConvert(time + 4)
-            case dayGan === '丁' || dayGan === '壬':
-              return this.tianGanConvert(time + 6)
-            case dayGan === '戊' || dayGan === '癸':
-              return this.tianGanConvert(time + 8)
-          }
-        }
-        return this.tianGan[num()]
-      }
-      const timeDiZh = () => {
-        switch (true) {
-          case time === 12:
-            return diZh[0]
-          case time === 13:
-            return diZh[1]
-          default:
-            return this.diZh[time]
-        }
-      }
-      return {
-        timeGan: timeTianGan(),
-        timeZh: timeDiZh()
       }
     }
   }

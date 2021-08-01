@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div>{{writeGanZhNum}}</div>
+    <div>{{birthdayData}}</div>
     <div>{{ganZhNum}}</div>
     <form action="">
       <div class="py-5">
@@ -61,6 +61,7 @@
     </form>
     <div>{{birthdayData}}</div>
     <button @click="submit" class="btn btn-primary">test</button>
+    <div>{{}}</div>
   </div>
 </template>
 
@@ -70,56 +71,16 @@ import { mapMutations, mapState } from 'vuex'
 export default {
   data () {
     return {
-      // lunerMonth: [
-      //   {
-      //     name: '正月',
-      //     month: 1
-      //   },
-      //   {
-      //     name: '二月',
-      //     month: 2
-      //   },
-      //   {
-      //     name: '三月',
-      //     month: 3
-      //   },
-      //   {
-      //     name: '四月',
-      //     month: 4
-      //   },
-      //   {
-      //     name: '五月',
-      //     month: 5
-      //   },
-      //   {
-      //     name: '六月',
-      //     month: 6
-      //   },
-      //   {
-      //     name: '七月',
-      //     month: 7
-      //   },
-      //   {
-      //     name: '八月',
-      //     month: 8
-      //   },
-      //   {
-      //     name: '九月',
-      //     month: 9
-      //   },
-      //   {
-      //     name: '十月',
-      //     month: 10
-      //   },
-      //   {
-      //     name: '冬月',
-      //     month: 11
-      //   },
-      //   {
-      //     name: '腊月',
-      //     month: 12
-      //   }
-      // ],
+      ganZhNumData: {
+        yearGan: 0,
+        yearZh: 0,
+        monthGan: 0,
+        monthZh: 0,
+        dayGan: 0,
+        dayZh: 0,
+        timeGan: 0,
+        timeZh: 0
+      },
       selectBirthdayYear: 148,
       selectBirthdayDay: 31,
       birthdayData: {
@@ -135,6 +96,79 @@ export default {
     ...mapMutations([
       'setBirthday', 'setGanZhNum'
     ]),
+    writeGanZhNum () {
+      const ganZhNumData = this.ganZhNumData
+      const birthdayData = this.birthdayData
+      const solar2lunarData = solarLunar.solar2lunar(birthdayData.year, birthdayData.month, birthdayData.day)
+      const yearGan = solar2lunarData.gzYear.split('')
+      const yearGanZhNum = this.GanZhNum(yearGan[0], yearGan[1])
+      const monthGan = solar2lunarData.gzMonth.split('')
+      const monthGanZhNum = this.GanZhNum(monthGan[0], monthGan[1])
+      const dyaGan = solar2lunarData.gzDay.split('')
+      const dayGanZhNum = this.GanZhNum(dyaGan[0], dyaGan[1])
+      ganZhNumData.yearGan = yearGanZhNum.gan
+      ganZhNumData.yearZh = yearGanZhNum.zh
+      ganZhNumData.monthGan = monthGanZhNum.gan
+      ganZhNumData.monthZh = monthGanZhNum.zh
+      ganZhNumData.dayGan = dayGanZhNum.gan
+      ganZhNumData.dayZh = dayGanZhNum.zh
+    },
+    timeGanZh () {
+      /*
+      日干支計算公式
+      五鼠遁
+      甲己還生甲，
+      乙庚丙作初，
+      丙辛從戊起，
+      丁壬庚子居，
+      戊癸何方發，
+      壬子是真途。
+       */
+      const ganZhNumData = this.ganZhNumData
+      const time = Math.ceil(this.birthdayData.time / 2) + 1
+      const dayGan = this.ganZhNumData.dayGan
+      const timeTianGan = () => {
+        const num = () => {
+          switch (true) {
+            case dayGan === 1 || dayGan === 6:
+              return this.tianGanConvert(time)
+            case dayGan === 2 || dayGan === 7:
+              return this.tianGanConvert(time + 2)
+            case dayGan === 3 || dayGan === 8:
+              return this.tianGanConvert(time + 4)
+            case dayGan === 4 || dayGan === 9:
+              return this.tianGanConvert(time + 6)
+            case dayGan === 5 || dayGan === 0:
+              return this.tianGanConvert(time + 8)
+          }
+        }
+        console.log(num())
+        return this.tianGanConvert(num())
+      }
+      const timeDiZh = () => {
+        switch (true) {
+          case time === 12:
+            return 0
+          case time === 13:
+            return 1
+          default:
+            return time
+        }
+      }
+      ganZhNumData.timeGan = timeTianGan()
+      ganZhNumData.timeZh = timeDiZh()
+    },
+    tianGanConvert (gan) {
+      // 計算天干數字
+      const Convert = () => {
+        if (gan > 9) {
+          return gan - 10
+        } else {
+          return gan
+        }
+      }
+      return Convert()
+    },
     test () {
     },
     GanZhNum (gan, zh) {
@@ -195,15 +229,25 @@ export default {
         zh: zhNum()
       }
     },
-    // luner () {
-    //   const birthdayData = this.birthdayData
-    //   const solar2lunarData = solarLunar.solar2lunar(birthdayData.year, birthdayData.month, birthdayData.day) // 輸入的日子為國曆
-    //   const monthTarget = this.lunerMonth.find(p => p.name === solar2lunarData.monthCn)
-    //   birthdayData.lunerMonth = monthTarget.month
-    //   console.log(solarLunar.solar2lunar(birthdayData.year, birthdayData.month, birthdayData.day))
-    // },
+    earlyLateZSh () {
+    // 早晚子判斷
+      const birthdayData = this.birthdayData
+      if (birthdayData.time === 23 && birthdayData.day < this.selectBirthdayDay) {
+        birthdayData.day += 1
+      } else if (birthdayData.time === 23 && birthdayData.day >= this.selectBirthdayDay) {
+        birthdayData.day = 1
+        if (birthdayData.month >= 12) {
+          birthdayData.month = 1
+        } else {
+          birthdayData.month += 1
+        }
+      }
+    },
     submit () {
-      this.setGanZhNum(this.writeGanZhNum)
+      this.earlyLateZSh()
+      this.writeGanZhNum()
+      this.timeGanZh()
+      this.setGanZhNum(this.ganZhNumData)
       this.setBirthday(this.birthdayData)
       console.log(this.ganZhNum)
     },
@@ -222,27 +266,7 @@ export default {
     ...mapState({
       birthday: state => state.birthday,
       ganZhNum: state => state.ganZhNum
-    }),
-    writeGanZhNum () {
-      const birthdayData = this.birthdayData
-      const solar2lunarData = solarLunar.solar2lunar(birthdayData.year, birthdayData.month, birthdayData.day)
-      const yearGan = solar2lunarData.gzYear.split('')
-      const yearGanZhNum = this.GanZhNum(yearGan[0], yearGan[1])
-      const monthGan = solar2lunarData.gzMonth.split('')
-      const monthGanZhNum = this.GanZhNum(monthGan[0], monthGan[1])
-      const dyaGan = solar2lunarData.gzDay.split('')
-      const dayGanZhNum = this.GanZhNum(dyaGan[0], dyaGan[1])
-      console.log(yearGanZhNum)
-      return {
-        yearGan: yearGanZhNum.gan,
-        yearZh: yearGanZhNum.zh,
-        monthGan: monthGanZhNum.gan,
-        monthZh: monthGanZhNum.zh,
-        dayGan: dayGanZhNum.gan,
-        dayZh: dayGanZhNum.zh,
-        time: this.birthdayData.time
-      }
-    }
+    })
   }
 
 }
