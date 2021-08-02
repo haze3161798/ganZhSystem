@@ -24,17 +24,49 @@
           <td class="table-border table-width">干十神</td>
         </tr>
         <tr class="table-border text-center">
-          <td class="table-border table-width">{{tianGan[ganZhNum.timeGan]}}</td>
-          <td class="table-border table-width">{{tianGan[ganZhNum.dayGan]}}</td>
-          <td class="table-border table-width">{{tianGan[ganZhNum.monthGan]}}</td>
-          <td class="table-border table-width">{{tianGan[ganZhNum.yearGan]}}</td>
+          <td class="table-border table-width">
+            <button @click="addTainGan()" class="btn">+</button>
+            <div>{{tianGan[ganZhNum.timeGan]}}</div>
+            <button class="btn">-</button>
+          </td>
+          <td class="table-border table-width">
+            <button class="btn">+</button>
+            <div>{{tianGan[ganZhNum.dayGan]}}</div>
+            <button class="btn">-</button>
+          </td>
+          <td class="table-border table-width">
+            <button class="btn">+</button>
+            <div>{{tianGan[ganZhNum.monthGan]}}</div>
+            <button class="btn">-</button>
+          </td>
+          <td class="table-border table-width">
+            <button class="btn">+</button>
+            <div>{{tianGan[ganZhNum.yearGan]}}</div>
+            <button class="btn">-</button>
+          </td>
           <td class="table-border table-width">天干</td>
         </tr>
         <tr class="table-border text-center">
-          <td class="table-border table-width">{{diZh[ganZhNum.timeZh]}}</td>
-          <td class="table-border table-width">{{diZh[ganZhNum.dayZh]}}</td>
-          <td class="table-border table-width">{{diZh[ganZhNum.monthZh]}}</td>
-          <td class="table-border table-width">{{diZh[ganZhNum.yearZh]}}</td>
+          <td class="table-border table-width">
+            <button class="btn">+</button>
+            <div>{{diZh[ganZhNum.timeZh]}}</div>
+            <button class="btn">-</button>
+          </td>
+          <td class="table-border table-width">
+            <button class="btn">+</button>
+            <div>{{diZh[ganZhNum.dayZh]}}</div>
+            <button class="btn">-</button>
+          </td>
+          <td class="table-border table-width">
+            <button class="btn">+</button>
+            <div>{{diZh[ganZhNum.monthZh]}}</div>
+            <button class="btn">-</button>
+          </td>
+          <td class="table-border table-width">
+            <button class="btn">+</button>
+            <div>{{diZh[ganZhNum.yearZh]}}</div>
+            <button class="btn">-</button>
+          </td>
           <td class="table-border table-width">地支</td>
         </tr>
         <tr class="table-border text-center">
@@ -89,17 +121,21 @@ export default {
         10: '酉',
         11: '戌',
         0: '亥'
-      },
-      jiaZi: ['癸亥',
-        '甲子', '乙丑', '丙寅', '丁卯', '戊辰', '已巳', '庚午', '辛未', '壬申', '癸酉', '甲戌', '乙亥',
-        '丙子', '丁丑', '戊寅', '已卯', '庚辰', '辛巳', '壬午', '癸未', '甲申', '乙酉', '丙戌', '丁亥',
-        '戊子', '己丑', '庚寅', '辛卯', '壬辰', '癸巳', '甲午', '乙未', '丙申', '丁酉', '戊戌', '已亥',
-        '庚子', '辛丑', '壬寅', '癸卯', '甲辰', '乙巳', '丙午', '丁未', '戊申', '已酉', '庚戌', '辛亥',
-        '壬子', '癸丑', '甲寅', '乙卯', '丙辰', '丁巳', '戊午', '已未', '庚申', '辛酉', '壬戌'
-      ]
+      }
+      // jiaZi: ['癸亥',
+      //   '甲子', '乙丑', '丙寅', '丁卯', '戊辰', '已巳', '庚午', '辛未', '壬申', '癸酉', '甲戌', '乙亥',
+      //   '丙子', '丁丑', '戊寅', '已卯', '庚辰', '辛巳', '壬午', '癸未', '甲申', '乙酉', '丙戌', '丁亥',
+      //   '戊子', '己丑', '庚寅', '辛卯', '壬辰', '癸巳', '甲午', '乙未', '丙申', '丁酉', '戊戌', '已亥',
+      //   '庚子', '辛丑', '壬寅', '癸卯', '甲辰', '乙巳', '丙午', '丁未', '戊申', '已酉', '庚戌', '辛亥',
+      //   '壬子', '癸丑', '甲寅', '乙卯', '丙辰', '丁巳', '戊午', '已未', '庚申', '辛酉', '壬戌'
+      // ]
     }
   },
-
+  methods: {
+    addTainGan (value) {
+      // this.ganZhNum.value += 1
+    }
+  },
   computed: {
     ...mapState({
       birthday: state => state.birthday,
