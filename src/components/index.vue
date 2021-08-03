@@ -17,31 +17,31 @@
           <td class="table-border table-width">四柱</td>
         </tr>
         <tr class="table-border text-center">
-          <td class="table-border table-width">十神</td>
+          <td class="table-border table-width">{{ganTenGod(tianGan[ganZhNum.timeGan][1], tianGan[ganZhNum.timeGan][2])}}</td>
           <td class="table-border table-width">日元</td>
-          <td class="table-border table-width">十神</td>
-          <td class="table-border table-width">十神</td>
+          <td class="table-border table-width">{{ganTenGod(tianGan[ganZhNum.monthGan][1], tianGan[ganZhNum.monthGan][2])}}</td>
+          <td class="table-border table-width">{{ganTenGod(tianGan[ganZhNum.yearGan][1], tianGan[ganZhNum.yearGan][2])}}</td>
           <td class="table-border table-width">干十神</td>
         </tr>
         <tr class="table-border text-center">
           <td class="table-border table-width">
             <button @click="addTainGan()" class="btn">+</button>
-            <div>{{tianGan[ganZhNum.timeGan]}}</div>
+            <div>{{tianGan[ganZhNum.timeGan][0]}}</div>
             <button class="btn">-</button>
           </td>
           <td class="table-border table-width">
             <button class="btn">+</button>
-            <div>{{tianGan[ganZhNum.dayGan]}}</div>
+            <div>{{tianGan[ganZhNum.dayGan][0]}}</div>
             <button class="btn">-</button>
           </td>
           <td class="table-border table-width">
             <button class="btn">+</button>
-            <div>{{tianGan[ganZhNum.monthGan]}}</div>
+            <div>{{tianGan[ganZhNum.monthGan][0]}}</div>
             <button class="btn">-</button>
           </td>
           <td class="table-border table-width">
             <button class="btn">+</button>
-            <div>{{tianGan[ganZhNum.yearGan]}}</div>
+            <div>{{tianGan[ganZhNum.yearGan][0]}}</div>
             <button class="btn">-</button>
           </td>
           <td class="table-border table-width">天干</td>
@@ -96,17 +96,30 @@ import solarLunar from 'solarlunar'
 export default {
   data () {
     return {
+      tenGod: {
+        0: ['劫財', '比肩'], // 同我
+        1: ['食神', '傷官'], // 我生
+        2: ['偏財', '正財'], // 我剋
+        3: ['七殺', '正官'], // 剋我
+        4: ['偏印', '正印'], // 生我
+        5: ['比肩', '劫財'], // 同我
+        6: ['食神', '傷官'], // 我生
+        7: ['偏財', '正財'], // 我剋
+        8: ['七殺', '正官'], // 剋我
+        9: ['偏印', '正印'] // 生我
+      },
       tianGan: {
-        1: '甲',
-        2: '乙',
-        3: '丙',
-        4: '丁',
-        5: '戊',
-        6: '己',
-        7: '庚',
-        8: '辛',
-        9: '壬',
-        0: '癸'
+        // 天干, 五行, 陰陽
+        1: ['甲', 1, 1],
+        2: ['乙', 1, 0],
+        3: ['丙', 2, 1],
+        4: ['丁', 2, 0],
+        5: ['戊', 3, 1],
+        6: ['己', 3, 0],
+        7: ['庚', 4, 1],
+        8: ['辛', 4, 0],
+        9: ['壬', 5, 1],
+        0: ['癸', 5, 0]
       },
       diZh: {
         1: '子',
@@ -132,6 +145,18 @@ export default {
     }
   },
   methods: {
+    ganTenGod (gan, ganIanYong) {
+      const IanYong = Math.abs(ganIanYong - this.tianGan[this.ganZhNum.dayGan][2])
+      const me = this.tianGan[this.ganZhNum.dayGan][1]
+      const tenGodNum = gan + 5 - me
+      console.log(tenGodNum)
+      return this.tenGod[tenGodNum][IanYong]
+      // if (tenGodNum < 0) {
+      //   return this.tenGod[tenGodNum][IanYong]
+      // } else {
+      //   return this.tenGod[tenGodNum][IanYong]
+      // }
+    },
     addTainGan (value) {
       // this.ganZhNum.value += 1
     }
