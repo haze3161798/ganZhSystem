@@ -25,47 +25,47 @@
         </tr>
         <tr class="table-border text-center">
           <td class="table-border table-width">
-            <button @click="addTainGan()" class="btn">+</button>
+            <button @click="addTainGan(ganZhNum, 'timeGan',)" class="btn">+</button>
             <div>{{tianGan[ganZhNum.timeGan][0]}}</div>
-            <button class="btn">-</button>
+            <button @click="minusTainGan(ganZhNum, 'timeGan')" class="btn">-</button>
           </td>
           <td class="table-border table-width">
-            <button class="btn">+</button>
+            <button @click="addTainGan(ganZhNum, 'dayGan')" class="btn">+</button>
             <div>{{tianGan[ganZhNum.dayGan][0]}}</div>
-            <button class="btn">-</button>
+            <button  @click="minusTainGan(ganZhNum, 'dayGan')" class="btn">-</button>
           </td>
           <td class="table-border table-width">
-            <button class="btn">+</button>
+            <button @click="addTainGan(ganZhNum, 'monthGan')" class="btn">+</button>
             <div>{{tianGan[ganZhNum.monthGan][0]}}</div>
-            <button class="btn">-</button>
+            <button @click="minusTainGan(ganZhNum, 'monthGan')" class="btn">-</button>
           </td>
           <td class="table-border table-width">
-            <button class="btn">+</button>
+            <button @click="addTainGan(ganZhNum, 'yearGan')" class="btn">+</button>
             <div>{{tianGan[ganZhNum.yearGan][0]}}</div>
-            <button class="btn">-</button>
+            <button @click="minusTainGan(ganZhNum, 'yearGan')" class="btn">-</button>
           </td>
           <td class="table-border table-width">天干</td>
         </tr>
         <tr class="table-border text-center">
           <td class="table-border table-width">
-            <button class="btn">+</button>
+            <button @click="addDiZh(ganZhNum, 'timeZh')" class="btn">+</button>
             <div>{{diZh[ganZhNum.timeZh]}}</div>
-            <button class="btn">-</button>
+            <button @click="minusDiZh(ganZhNum, 'timeZh')" class="btn">-</button>
           </td>
           <td class="table-border table-width">
-            <button class="btn">+</button>
+            <button @click="addDiZh(ganZhNum, 'dayZh')" class="btn">+</button>
             <div>{{diZh[ganZhNum.dayZh]}}</div>
-            <button class="btn">-</button>
+            <button @click="minusDiZh(ganZhNum, 'dayZh')" class="btn">-</button>
           </td>
           <td class="table-border table-width">
-            <button class="btn">+</button>
+            <button @click="addDiZh(ganZhNum, 'monthZh')" class="btn">+</button>
             <div>{{diZh[ganZhNum.monthZh]}}</div>
-            <button class="btn">-</button>
+            <button @click="minusDiZh(ganZhNum, 'monthZh')" class="btn">-</button>
           </td>
           <td class="table-border table-width">
-            <button class="btn">+</button>
+            <button @click="addDiZh(ganZhNum, 'yearZh')" class="btn">+</button>
             <div>{{diZh[ganZhNum.yearZh]}}</div>
-            <button class="btn">-</button>
+            <button @click="minusDiZh(ganZhNum, 'yearZh')" class="btn">-</button>
           </td>
           <td class="table-border table-width">地支</td>
         </tr>
@@ -149,7 +149,6 @@ export default {
       const IanYong = Math.abs(ganIanYong - this.tianGan[this.ganZhNum.dayGan][2])
       const me = this.tianGan[this.ganZhNum.dayGan][1]
       const tenGodNum = gan + 5 - me
-      console.log(tenGodNum)
       return this.tenGod[tenGodNum][IanYong]
       // if (tenGodNum < 0) {
       //   return this.tenGod[tenGodNum][IanYong]
@@ -157,8 +156,39 @@ export default {
       //   return this.tenGod[tenGodNum][IanYong]
       // }
     },
-    addTainGan (value) {
-      // this.ganZhNum.value += 1
+    addTainGan (obj, key) {
+      console.log(obj)
+      // const end = Object.key(obj)
+      // console.log(end)
+      if (obj[key] >= 9) {
+        obj[key] = 0
+      } else {
+        obj[key] += 1
+      }
+    },
+    minusTainGan (obj, key) {
+      if (!(obj[key])) {
+        obj[key] = 9
+      } else {
+        obj[key] -= 1
+      }
+    },
+    addDiZh (obj, key) {
+      console.log(obj)
+      // const end = Object.key(obj)
+      // console.log(end)
+      if (obj[key] >= 11) {
+        obj[key] = 0
+      } else {
+        obj[key] += 1
+      }
+    },
+    minusDiZh (obj, key) {
+      if (!(obj[key])) {
+        obj[key] = 11
+      } else {
+        obj[key] -= 1
+      }
     }
   },
   computed: {
