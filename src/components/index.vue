@@ -49,31 +49,31 @@
         <tr class="table-border text-center">
           <td class="table-border table-width">
             <button @click="addDiZh(ganZhNum, 'timeZh')" class="btn">+</button>
-            <div>{{diZh[ganZhNum.timeZh]}}</div>
+            <div>{{diZh[ganZhNum.timeZh][0]}}</div>
             <button @click="minusDiZh(ganZhNum, 'timeZh')" class="btn">-</button>
           </td>
           <td class="table-border table-width">
             <button @click="addDiZh(ganZhNum, 'dayZh')" class="btn">+</button>
-            <div>{{diZh[ganZhNum.dayZh]}}</div>
+            <div>{{diZh[ganZhNum.dayZh][0]}}</div>
             <button @click="minusDiZh(ganZhNum, 'dayZh')" class="btn">-</button>
           </td>
           <td class="table-border table-width">
             <button @click="addDiZh(ganZhNum, 'monthZh')" class="btn">+</button>
-            <div>{{diZh[ganZhNum.monthZh]}}</div>
+            <div>{{diZh[ganZhNum.monthZh][0]}}</div>
             <button @click="minusDiZh(ganZhNum, 'monthZh')" class="btn">-</button>
           </td>
           <td class="table-border table-width">
             <button @click="addDiZh(ganZhNum, 'yearZh')" class="btn">+</button>
-            <div>{{diZh[ganZhNum.yearZh]}}</div>
+            <div>{{diZh[ganZhNum.yearZh][0]}}</div>
             <button @click="minusDiZh(ganZhNum, 'yearZh')" class="btn">-</button>
           </td>
           <td class="table-border table-width">地支</td>
         </tr>
         <tr class="table-border text-center">
-          <td class="table-border table-width">藏干</td>
-          <td class="table-border table-width">藏干</td>
-          <td class="table-border table-width">藏干</td>
-          <td class="table-border table-width">藏干</td>
+          <td class="table-border table-width">{{hideGan(diZh[ganZhNum.timeZh])}}</td>
+          <td class="table-border table-width">{{hideGan(diZh[ganZhNum.dayZh])}}</td>
+          <td class="table-border table-width">{{hideGan(diZh[ganZhNum.monthZh])}}</td>
+          <td class="table-border table-width">{{hideGan(diZh[ganZhNum.yearZh])}}</td>
           <td class="table-border table-width">藏干</td>
         </tr>
         <tr class="table-border text-center">
@@ -109,7 +109,7 @@ export default {
         9: ['偏印', '正印'] // 生我
       },
       tianGan: {
-        // 天干, 五行, 陰陽
+        // 天干, 五行 木1 火2 土3 金4 水5, 陰陽
         1: ['甲', 1, 1],
         2: ['乙', 1, 0],
         3: ['丙', 2, 1],
@@ -122,18 +122,19 @@ export default {
         0: ['癸', 5, 0]
       },
       diZh: {
-        1: '子',
-        2: '丑',
-        3: '寅',
-        4: '卯',
-        5: '辰',
-        6: '巳',
-        7: '午',
-        8: '未',
-        9: '申',
-        10: '酉',
-        11: '戌',
-        0: '亥'
+        // 地支, 五行, 藏干
+        1: ['子', 5, [0]],
+        2: ['丑', 3, [6, 0, 8]],
+        3: ['寅', 1, [1, 3, 3]],
+        4: ['卯', 1, [2]],
+        5: ['辰', 3, [5, 2, 0]],
+        6: ['巳', 2, [3, 5, 7]],
+        7: ['午', 2, [4, 6]],
+        8: ['未', 3, [6, 2, 4]],
+        9: ['申', 4, [7, 9, 5]],
+        10: ['酉', 4, [8]],
+        11: ['戌', 3, [5, 8, 4]],
+        0: ['亥', 5, [9, 1]]
       }
       // jiaZi: ['癸亥',
       //   '甲子', '乙丑', '丙寅', '丁卯', '戊辰', '已巳', '庚午', '辛未', '壬申', '癸酉', '甲戌', '乙亥',
@@ -145,21 +146,20 @@ export default {
     }
   },
   methods: {
+    hideGan (gan) {
+      const arr = gan[2].map(element =>
+        this.tianGan[element][0]
+      ).join(' ')
+      return arr
+    },
     ganTenGod (gan, ganIanYong) {
       const IanYong = Math.abs(ganIanYong - this.tianGan[this.ganZhNum.dayGan][2])
       const me = this.tianGan[this.ganZhNum.dayGan][1]
       const tenGodNum = gan + 5 - me
       return this.tenGod[tenGodNum][IanYong]
-      // if (tenGodNum < 0) {
-      //   return this.tenGod[tenGodNum][IanYong]
-      // } else {
-      //   return this.tenGod[tenGodNum][IanYong]
-      // }
     },
     addTainGan (obj, key) {
       console.log(obj)
-      // const end = Object.key(obj)
-      // console.log(end)
       if (obj[key] >= 9) {
         obj[key] = 0
       } else {

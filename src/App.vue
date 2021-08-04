@@ -4,6 +4,9 @@
 
 <script>
 export default {
+  created () {
+    console.log('app')
+  }
   // data () {
   //   return {
   //     birthdayData: {

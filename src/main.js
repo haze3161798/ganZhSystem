@@ -1,12 +1,12 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import './scss/style.scss'
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import Input from './components/Input.vue'
 import Index from './components/Index.vue'
 import store from './store/index'
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes: [
     {
       path: '/Index',
@@ -18,4 +18,6 @@ const router = createRouter({
     }
   ]
 })
-createApp(App).use(router).use(store).mount('#app')
+const app = createApp(App)
+app.use(router).use(store).mount('#app')
+console.log(app)
