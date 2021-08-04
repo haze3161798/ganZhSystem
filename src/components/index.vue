@@ -77,10 +77,18 @@
           <td class="table-border table-width">藏干</td>
         </tr>
         <tr class="table-border text-center">
-          <td class="table-border table-width">十神</td>
-          <td class="table-border table-width">十神</td>
-          <td class="table-border table-width">十神</td>
-          <td class="table-border table-width">十神</td>
+          <td class="table-border table-width">
+            <span class="d-block" v-for="item in ziTenGod(diZh[ganZhNum.timeZh])" :key="item">{{item}}</span>
+          </td>
+          <td class="table-border table-width">
+            <span class="d-block" v-for="item in ziTenGod(diZh[ganZhNum.dayZh])" :key="item">{{item}}</span>
+          </td>
+          <td class="table-border table-width">
+            <span class="d-block" v-for="item in ziTenGod(diZh[ganZhNum.monthZh])" :key="item">{{item}}</span>
+          </td>
+          <td class="table-border table-width">
+            <span class="d-block" v-for="item in ziTenGod(diZh[ganZhNum.yearZh])" :key="item">{{item}}</span>
+          </td>
           <td class="table-border table-width">支十神</td>
         </tr>
       </table>
@@ -92,7 +100,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import solarLunar from 'solarlunar'
+// import solarLunar from 'solarlunar'
 export default {
   data () {
     return {
@@ -125,7 +133,7 @@ export default {
         // 地支, 五行, 藏干
         1: ['子', 5, [0]],
         2: ['丑', 3, [6, 0, 8]],
-        3: ['寅', 1, [1, 3, 3]],
+        3: ['寅', 1, [1, 3, 5]],
         4: ['卯', 1, [2]],
         5: ['辰', 3, [5, 2, 0]],
         6: ['巳', 2, [3, 5, 7]],
@@ -146,20 +154,28 @@ export default {
     }
   },
   methods: {
-    hideGan (gan) {
-      const arr = gan[2].map(element =>
+    hideGan (zh) {
+      // 把地支帶進來找出藏干
+      const HideGanToWord = zh[2].map(element =>
         this.tianGan[element][0]
       ).join(' ')
-      return arr
+      return HideGanToWord
     },
     ganTenGod (gan, ganIanYong) {
+      // 天干十神計算
       const IanYong = Math.abs(ganIanYong - this.tianGan[this.ganZhNum.dayGan][2])
       const me = this.tianGan[this.ganZhNum.dayGan][1]
       const tenGodNum = gan + 5 - me
       return this.tenGod[tenGodNum][IanYong]
     },
+    ziTenGod (zh) {
+      // 地支十神計算
+      return zh[2].map(element =>
+        this.ganTenGod(this.tianGan[element][1], this.tianGan[element][2])
+      )
+    },
     addTainGan (obj, key) {
-      console.log(obj)
+      // 天干調整+
       if (obj[key] >= 9) {
         obj[key] = 0
       } else {
@@ -167,6 +183,7 @@ export default {
       }
     },
     minusTainGan (obj, key) {
+      // 天干調整-
       if (!(obj[key])) {
         obj[key] = 9
       } else {
@@ -174,9 +191,7 @@ export default {
       }
     },
     addDiZh (obj, key) {
-      console.log(obj)
-      // const end = Object.key(obj)
-      // console.log(end)
+      // 地之調整+
       if (obj[key] >= 11) {
         obj[key] = 0
       } else {
@@ -184,6 +199,7 @@ export default {
       }
     },
     minusDiZh (obj, key) {
+      // 地支調整 -
       if (!(obj[key])) {
         obj[key] = 11
       } else {
@@ -195,77 +211,7 @@ export default {
     ...mapState({
       birthday: state => state.birthday,
       ganZhNum: state => state.ganZhNum
-    }),
-    GanZhNum (gan, zh) {
-      const ganNum = () => {
-        switch (true) {
-          case gan === '甲':
-            return 1
-          case gan === '乙':
-            return 2
-          case gan === '丙':
-            return 3
-          case gan === '丁':
-            return 4
-          case gan === '戊':
-            return 5
-          case gan === '己':
-            return 6
-          case gan === '庚':
-            return 7
-          case gan === '辛':
-            return 8
-          case gan === '壬':
-            return 9
-          case gan === '癸':
-            return 0
-        }
-      }
-      const zhNum = () => {
-        switch (true) {
-          case zh === '子':
-            return 1
-          case zh === '丑':
-            return 2
-          case zh === '寅':
-            return 3
-          case zh === '卯':
-            return 4
-          case zh === '辰':
-            return 5
-          case zh === '巳':
-            return 6
-          case zh === '午':
-            return 7
-          case zh === '未':
-            return 8
-          case zh === '申':
-            return 9
-          case zh === '酉':
-            return 10
-          case zh === '戌':
-            return 11
-          case zh === '亥':
-            return 0
-        }
-      }
-      return {
-        gan: ganNum,
-        zh: zhNum
-      }
-    },
-    GanZh () {
-      const birthday = this.birthday
-      const solar2lunarData = solarLunar.solar2lunar(birthday.year, birthday.month, birthday.day)
-      return solar2lunarData
-    },
-    yearGanZh () {
-      const year = this.GanZh.gzYear.split('')
-      return {
-        yearGan: year[0],
-        yearzh: year[1]
-      }
-    }
+    })
   }
 }
 </script>

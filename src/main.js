@@ -20,4 +20,3 @@ const router = createRouter({
 })
 const app = createApp(App)
 app.use(router).use(store).mount('#app')
-console.log(app)
