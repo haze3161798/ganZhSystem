@@ -5,6 +5,33 @@
         <div class="d-md-flex justify-content-center py-md-2">
           <div class="d-flex py-2 py-md-0">
             <div class="form-text-left">
+              <span>姓名/暱稱</span>
+            </div>
+            <div class="col">
+              <input class="form-control input-md-width" type="text" placeholder="請輸入姓名或暱稱">
+            </div>
+          </div>
+            <div class="d-flex">
+              <div class="form-text-left">
+                <span>性別</span>
+              </div>
+              <div class="d-flex input-md-width">
+                <div class="mx-2 d-flex align-items-center">
+                  <input class="radio-box-input" type="radio" name="flexRadioDefault" id="radio-box1" value="1"/>
+                  <label class="radio-box-label position-relative" for="radio-box1"> </label>
+                  <label class="d-block px-2" for="radio-box1">男</label>
+                </div>
+                <div class="mx-2 d-flex align-items-center">
+                  <input class="radio-box-input" type="radio" name="flexRadioDefault" id="radio-box2" value="0" />
+                  <label class="radio-box-label position-relative" for="radio-box2"> </label>
+                  <label class="d-block px-2" for="radio-box2">女</label>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="d-md-flex justify-content-center py-md-2">
+          <div class="d-flex py-2 py-md-0">
+            <div class="form-text-left">
               <span>出生年(西元)</span>
             </div>
             <div class="col">
@@ -53,7 +80,7 @@
       </div>
       <div class="d-flex justify-content-center">
         <router-link to="/Index">
-          <button class="btn btn-primary" type="button" @click="submit">送出</button>
+          <button class="btn btn-primary" type="submit" @click="submit">送出</button>
         </router-link>
       </div>
     </form>
@@ -92,6 +119,7 @@ export default {
       'setBirthday', 'setGanZhNum'
     ]),
     writeGanZhNum () {
+      // 干支序號
       const ganZhNumData = this.ganZhNumData
       const birthdayData = this.birthdayData
       const solar2lunarData = solarLunar.solar2lunar(birthdayData.year, birthdayData.month, birthdayData.day)
@@ -110,7 +138,7 @@ export default {
     },
     timeGanZh () {
       /*
-      日干支計算公式
+      時支計算公式
       五鼠遁
       甲己還生甲，
       乙庚丙作初，
@@ -163,9 +191,8 @@ export default {
       }
       return Convert()
     },
-    test () {
-    },
     GanZhNum (gan, zh) {
+      // 干支換算成序號
       const ganNum = () => {
         switch (true) {
           case gan === '甲':
@@ -247,6 +274,7 @@ export default {
       this.setBirthday(this.birthdayData)
     },
     dayCount () {
+      // 計算選擇的月有幾天
       const leepmonth = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
       const noleepmonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
       const month = this.birthdayData.month
@@ -277,6 +305,53 @@ export default {
 @media (min-width:768px) {
   .input-md-width{
     width: 205px;
+  }
+}
+.radio-box-input {
+  display: none;
+  pointer-events: none;
+
+  &:checked ~ .radio-box-label {
+    border: 0;
+
+    &::after {
+      transform: rotate(45deg) scale(1);
+    }
+    &::before {
+      transform: rotate(-45deg) scale(1);
+    }
+  }
+}
+
+.radio-box-label {
+  border: 2px solid black;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+
+  &::after {
+    content: '';
+    top: 6px;
+    left: 0px;
+    position: absolute;
+    width: 7px;
+    height: 2px;
+    background-color: black;
+    transform: rotate(45deg) scaleX(0);
+    transform-origin: left;
+    transition: all 0.2s;
+  }
+  &::before {
+    content: '';
+    top: 11px;
+    left: 4px;
+    position: absolute;
+    width: 12px;
+    height: 2px;
+    background-color: black;
+    transform: rotate(-45deg) scaleX(0);
+    transition: all 0.2s 0.1s;
+    transform-origin: left;
   }
 }
 </style>

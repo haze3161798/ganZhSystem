@@ -9,87 +9,87 @@
           <col style="width:22.5%"/>
           <col style="width:10%"/>
         </colgroup>
-        <tr class="table-border text-center">
-          <td class="table-border table-width">時柱</td>
-          <td class="table-border table-width">日柱</td>
-          <td class="table-border table-width">月柱</td>
-          <td class="table-border table-width">年柱</td>
-          <td class="table-border table-width">四柱</td>
+        <tr class="text-center">
+          <td >時柱</td>
+          <td >日柱</td>
+          <td >月柱</td>
+          <td >年柱</td>
+          <td >四柱</td>
         </tr>
-        <tr class="table-border text-center">
-          <td class="table-border table-width">{{ganTenGod(tianGan[ganZhNum.timeGan][1], tianGan[ganZhNum.timeGan][2])}}</td>
-          <td class="table-border table-width">日元</td>
-          <td class="table-border table-width">{{ganTenGod(tianGan[ganZhNum.monthGan][1], tianGan[ganZhNum.monthGan][2])}}</td>
-          <td class="table-border table-width">{{ganTenGod(tianGan[ganZhNum.yearGan][1], tianGan[ganZhNum.yearGan][2])}}</td>
-          <td class="table-border table-width">干十神</td>
+        <tr class=" text-center bg-gray">
+          <td >{{ganTenGod(tianGan[ganZhNum.timeGan][1], tianGan[ganZhNum.timeGan][2])}}</td>
+          <td >日元</td>
+          <td >{{ganTenGod(tianGan[ganZhNum.monthGan][1], tianGan[ganZhNum.monthGan][2])}}</td>
+          <td >{{ganTenGod(tianGan[ganZhNum.yearGan][1], tianGan[ganZhNum.yearGan][2])}}</td>
+          <td >干十神</td>
         </tr>
-        <tr class="table-border text-center">
-          <td class="table-border table-width">
+        <tr class=" text-center">
+          <td >
             <button @click="addTainGan(ganZhNum, 'timeGan',)" class="btn">+</button>
-            <div>{{tianGan[ganZhNum.timeGan][0]}}</div>
+            <div :class="wuXingColor(tianGan[ganZhNum.timeGan][1])">{{tianGan[ganZhNum.timeGan][0]}}</div>
             <button @click="minusTainGan(ganZhNum, 'timeGan')" class="btn">-</button>
           </td>
-          <td class="table-border table-width">
+          <td >
             <button @click="addTainGan(ganZhNum, 'dayGan')" class="btn">+</button>
-            <div>{{tianGan[ganZhNum.dayGan][0]}}</div>
+            <div :class="wuXingColor(tianGan[ganZhNum.dayGan][1])">{{tianGan[ganZhNum.dayGan][0]}}</div>
             <button  @click="minusTainGan(ganZhNum, 'dayGan')" class="btn">-</button>
           </td>
-          <td class="table-border table-width">
+          <td >
             <button @click="addTainGan(ganZhNum, 'monthGan')" class="btn">+</button>
-            <div>{{tianGan[ganZhNum.monthGan][0]}}</div>
+            <div :class="wuXingColor(tianGan[ganZhNum.monthGan][1])">{{tianGan[ganZhNum.monthGan][0]}}</div>
             <button @click="minusTainGan(ganZhNum, 'monthGan')" class="btn">-</button>
           </td>
-          <td class="table-border table-width">
+          <td >
             <button @click="addTainGan(ganZhNum, 'yearGan')" class="btn">+</button>
-            <div>{{tianGan[ganZhNum.yearGan][0]}}</div>
+            <div :class="wuXingColor(tianGan[ganZhNum.yearGan][1])">{{tianGan[ganZhNum.yearGan][0]}}</div>
             <button @click="minusTainGan(ganZhNum, 'yearGan')" class="btn">-</button>
           </td>
-          <td class="table-border table-width">天干</td>
+          <td >天干</td>
         </tr>
-        <tr class="table-border text-center">
-          <td class="table-border table-width">
+        <tr class=" text-center bg-gray">
+          <td >
             <button @click="addDiZh(ganZhNum, 'timeZh')" class="btn">+</button>
-            <div>{{diZh[ganZhNum.timeZh][0]}}</div>
+            <div :class="wuXingColor(diZh[ganZhNum.timeZh][1])">{{diZh[ganZhNum.timeZh][0]}}</div>
             <button @click="minusDiZh(ganZhNum, 'timeZh')" class="btn">-</button>
           </td>
-          <td class="table-border table-width">
+          <td >
             <button @click="addDiZh(ganZhNum, 'dayZh')" class="btn">+</button>
-            <div>{{diZh[ganZhNum.dayZh][0]}}</div>
+            <div :class="wuXingColor(diZh[ganZhNum.dayZh][1])">{{diZh[ganZhNum.dayZh][0]}}</div>
             <button @click="minusDiZh(ganZhNum, 'dayZh')" class="btn">-</button>
           </td>
-          <td class="table-border table-width">
+          <td >
             <button @click="addDiZh(ganZhNum, 'monthZh')" class="btn">+</button>
-            <div>{{diZh[ganZhNum.monthZh][0]}}</div>
+            <div :class="wuXingColor(diZh[ganZhNum.monthZh][1])">{{diZh[ganZhNum.monthZh][0]}}</div>
             <button @click="minusDiZh(ganZhNum, 'monthZh')" class="btn">-</button>
           </td>
-          <td class="table-border table-width">
+          <td >
             <button @click="addDiZh(ganZhNum, 'yearZh')" class="btn">+</button>
-            <div>{{diZh[ganZhNum.yearZh][0]}}</div>
+            <div :class="wuXingColor(diZh[ganZhNum.yearZh][1])">{{diZh[ganZhNum.yearZh][0]}}</div>
             <button @click="minusDiZh(ganZhNum, 'yearZh')" class="btn">-</button>
           </td>
-          <td class="table-border table-width">地支</td>
+          <td >地支</td>
         </tr>
-        <tr class="table-border text-center">
-          <td class="table-border table-width">{{hideGan(diZh[ganZhNum.timeZh])}}</td>
-          <td class="table-border table-width">{{hideGan(diZh[ganZhNum.dayZh])}}</td>
-          <td class="table-border table-width">{{hideGan(diZh[ganZhNum.monthZh])}}</td>
-          <td class="table-border table-width">{{hideGan(diZh[ganZhNum.yearZh])}}</td>
-          <td class="table-border table-width">藏干</td>
+        <tr class=" text-center">
+          <td >{{hideGan(diZh[ganZhNum.timeZh])}}</td>
+          <td >{{hideGan(diZh[ganZhNum.dayZh])}}</td>
+          <td >{{hideGan(diZh[ganZhNum.monthZh])}}</td>
+          <td >{{hideGan(diZh[ganZhNum.yearZh])}}</td>
+          <td >藏干</td>
         </tr>
-        <tr class="table-border text-center">
-          <td class="table-border table-width">
+        <tr class=" text-center bg-gray">
+          <td >
             <span class="d-block" v-for="item in ziTenGod(diZh[ganZhNum.timeZh])" :key="item">{{item}}</span>
           </td>
-          <td class="table-border table-width">
+          <td >
             <span class="d-block" v-for="item in ziTenGod(diZh[ganZhNum.dayZh])" :key="item">{{item}}</span>
           </td>
-          <td class="table-border table-width">
+          <td >
             <span class="d-block" v-for="item in ziTenGod(diZh[ganZhNum.monthZh])" :key="item">{{item}}</span>
           </td>
-          <td class="table-border table-width">
+          <td >
             <span class="d-block" v-for="item in ziTenGod(diZh[ganZhNum.yearZh])" :key="item">{{item}}</span>
           </td>
-          <td class="table-border table-width">支十神</td>
+          <td >支十神</td>
         </tr>
       </table>
     </div>
@@ -154,6 +154,21 @@ export default {
     }
   },
   methods: {
+    wuXingColor (ganZh) {
+      // 五行顏色
+      switch (true) {
+        case ganZh === 1:
+          return 'wuXing-tree'
+        case ganZh === 2:
+          return 'wuXing-fire'
+        case ganZh === 3:
+          return 'wuXing-soil'
+        case ganZh === 4:
+          return 'wuXing-gold'
+        case ganZh === 5:
+          return 'wuXing-water'
+      }
+    },
     hideGan (zh) {
       // 把地支帶進來找出藏干
       const HideGanToWord = zh[2].map(element =>
@@ -217,7 +232,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.table-border{
-  border:1px solid black
+.wuXing-tree{
+  font-weight: bold;
+  color:rgb(11, 180, 11)
+}
+.wuXing-fire{
+  font-weight: bold;
+  color:red
+}
+.wuXing-soil{
+  font-weight: bold;
+  color:rgb(202, 113, 10)
+}
+.wuXing-gold{
+  font-weight: bold;
+  color:orange
+}
+.wuXing-water{
+  font-weight: bold;
+  color:blue
+}
+.bg-gray{
+  background-color:rgb(199, 197, 197)
 }
 </style>
