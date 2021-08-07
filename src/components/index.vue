@@ -1,6 +1,38 @@
 <template>
   <div>
-    <div class="container py-4">
+    <div class="container py-4" style="max-width:500px">
+      <div class="pt-2 pb-5">
+        <div class="text-center pb-2">
+          <h1 class="fw-bold">命主資料</h1>
+        </div>
+        <div>
+          <div  class="d-flex justify-content-between">
+            <div>
+              <div>
+                <span class="me-2">姓名</span>
+                <span>{{birthday.name}}</span>
+              </div>
+              <div>
+                <span class="me-2">生日</span>
+                <span>{{birthday.year}}年</span>
+                <span>{{birthday.month}}月</span>
+                <span>{{birthday.day}}日</span>
+                <span>{{diZh[ganZhNum.yearZh][0]}}時</span>
+              </div>
+            </div>
+            <div>
+                <div>
+                <span class="me-2">{{ianYong[tianGan[ganZhNum.dayGan][2]]}}</span>
+                <span>{{chianQun[birthday.sex] + '造'}}</span>
+              </div>
+              <div>
+                <span class="me-2">命主五行</span>
+                <span>{{wuXin[tianGan[ganZhNum.dayGan][1]]}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <table class="mx-auto">
         <colgroup>
           <col style="width:22.5%"/>
@@ -18,7 +50,7 @@
         </tr>
         <tr class=" text-center bg-gray">
           <td >{{ganTenGod(tianGan[ganZhNum.timeGan][1], tianGan[ganZhNum.timeGan][2])}}</td>
-          <td >日元</td>
+          <td >元{{sex}}</td>
           <td >{{ganTenGod(tianGan[ganZhNum.monthGan][1], tianGan[ganZhNum.monthGan][2])}}</td>
           <td >{{ganTenGod(tianGan[ganZhNum.yearGan][1], tianGan[ganZhNum.yearGan][2])}}</td>
           <td >干十神</td>
@@ -93,8 +125,6 @@
         </tr>
       </table>
     </div>
-    <div>
-    </div>
   </div>
 </template>
 
@@ -104,6 +134,14 @@ import { mapState } from 'vuex'
 export default {
   data () {
     return {
+      chianQun: {
+        1: '乾',
+        2: '坤'
+      },
+      ianYong: {
+        0: '陰',
+        1: '陽'
+      },
       tenGod: {
         0: ['劫財', '比肩'], // 同我
         1: ['食神', '傷官'], // 我生
@@ -143,6 +181,13 @@ export default {
         10: ['酉', 4, [8]],
         11: ['戌', 3, [5, 8, 4]],
         0: ['亥', 5, [9, 1]]
+      },
+      wuXin: {
+        1: '木',
+        2: '火',
+        3: '土',
+        4: '金',
+        5: '水'
       }
       // jiaZi: ['癸亥',
       //   '甲子', '乙丑', '丙寅', '丁卯', '戊辰', '已巳', '庚午', '辛未', '壬申', '癸酉', '甲戌', '乙亥',
@@ -226,7 +271,17 @@ export default {
     ...mapState({
       birthday: state => state.birthday,
       ganZhNum: state => state.ganZhNum
-    })
+    }),
+    sex () {
+      const data = () => {
+        if (this.birthday.sex === '1') {
+          return '男'
+        } else {
+          return '女'
+        }
+      }
+      return data()
+    }
   }
 }
 </script>

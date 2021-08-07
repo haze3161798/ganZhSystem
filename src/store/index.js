@@ -2,11 +2,12 @@ import { createStore } from 'vuex'
 const store = createStore({
   state: {
     birthday: {
-      year: 1993,
-      month: 12,
-      day: 28,
+      year: 0,
+      month: 0,
+      day: 0,
       time: 0,
-      lunerMonth: 0
+      name: '',
+      sex: null
     },
     ganZhNum: {
       yearGan: 0,
@@ -37,7 +38,8 @@ const store = createStore({
       birthday.month = value.month
       birthday.day = value.day
       birthday.time = value.time
-      birthday.lunerMonth = value.lunerMonth
+      birthday.sex = value.sex
+      birthday.name = value.name
     }
   }
 })

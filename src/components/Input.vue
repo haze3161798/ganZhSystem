@@ -8,26 +8,32 @@
               <span>姓名/暱稱</span>
             </div>
             <div class="col">
-              <input class="form-control input-md-width" type="text" placeholder="請輸入姓名或暱稱">
+              <input class="form-control input-md-width" type="text" placeholder="不填也沒關係" v-model="birthdayData.name">
             </div>
           </div>
+          <div>
             <div class="d-flex">
-              <div class="form-text-left">
-                <span>性別</span>
-              </div>
-              <div class="d-flex input-md-width">
-                <div class="mx-2 d-flex align-items-center">
-                  <input class="radio-box-input" type="radio" name="flexRadioDefault" id="radio-box1" value="1"/>
-                  <label class="radio-box-label position-relative" for="radio-box1"> </label>
-                  <label class="d-block px-2" for="radio-box1">男</label>
+                <div class="form-text-left">
+                  <span>性別</span>
                 </div>
-                <div class="mx-2 d-flex align-items-center">
-                  <input class="radio-box-input" type="radio" name="flexRadioDefault" id="radio-box2" value="0" />
-                  <label class="radio-box-label position-relative" for="radio-box2"> </label>
-                  <label class="d-block px-2" for="radio-box2">女</label>
+                <div class="d-flex input-md-width">
+                  <div class="mx-2 d-flex align-items-center">
+                    <input class="radio-box-input" type="radio" name="flexRadioDefault" id="radio-box1" value="1" v-model="birthdayData.sex"/>
+                    <label class="radio-box-label position-relative" for="radio-box1"> </label>
+                    <label class="d-block px-2" for="radio-box1">男</label>
+                  </div>
+                  <div class="mx-2 d-flex align-items-center">
+                    <input class="radio-box-input" type="radio" name="flexRadioDefault" id="radio-box2" value="2" v-model="birthdayData.sex"/>
+                    <label class="radio-box-label position-relative" for="radio-box2"> </label>
+                    <label class="d-block px-2" for="radio-box2">女</label>
+                  </div>
                 </div>
-              </div>
             </div>
+            <div class="d-flex">
+              <div class="form-text-left"></div>
+              <small class="text-danger">{{errMsg.sex}}</small>
+            </div>
+          </div>
         </div>
         <div class="d-md-flex justify-content-center py-md-2">
           <div class="d-flex py-2 py-md-0">
@@ -39,6 +45,7 @@
                 <option value="0" disabled="disabled">請選擇年份</option>
                 <option :value="item + 1900" v-for="item in selectBirthdayYear" :key="item">{{ '西元' + (item + 1900) + '年'}}</option>
               </select>
+              <small class="text-danger">{{errMsg.year}}</small>
             </div>
           </div>
           <div class="d-flex ">
@@ -50,6 +57,7 @@
                 <option value="0" disabled="disabled">請選擇月份</option>
                 <option :value="item" v-for="item in 12" :key="item">{{item + '月'}}</option>
               </select>
+              <small class="text-danger">{{errMsg.month}}</small>
             </div>
           </div>
         </div>
@@ -60,9 +68,10 @@
             </div>
             <div class="col">
               <select class="form-control input-md-width" v-model="birthdayData.day">
-                <option value="0">請選擇日期</option>
+                <option value="0" disabled="disabled">請選擇日期</option>
                 <option :value="item" v-for="item in selectBirthdayDay" :key="item">{{item + '日'}}</option>
               </select>
+              <small class="text-danger">{{errMsg.day}}</small>
             </div>
           </div>
           <div class="d-flex">
@@ -71,19 +80,19 @@
             </div>
             <div class="col">
               <select class="form-control input-md-width" v-model="birthdayData.time">
-                <option value="0">請選擇時間</option>
+                <option value="0" disabled="disabled">請選擇時間</option>
                 <option :value="item - 1" v-for="item in 24" :key="item">{{item - 1 + '點'}}</option>
               </select>
+              <small class="text-danger">{{errMsg.time}}</small>
             </div>
           </div>
         </div>
       </div>
       <div class="d-flex justify-content-center">
-        <router-link to="/Index">
-          <button class="btn btn-primary" type="submit" @click="submit">送出</button>
-        </router-link>
+          <button class="btn btn-primary" type="submit" @click.prevent="submit">送出</button>
       </div>
     </form>
+
   </div>
 </template>
 
@@ -109,9 +118,11 @@ export default {
         year: 0,
         month: 0,
         day: 0,
-        time: 0
-      }
-
+        time: 0,
+        name: '',
+        sex: null
+      },
+      errMsg: {}
     }
   },
   methods: {
@@ -266,12 +277,35 @@ export default {
         }
       }
     },
+    mustWrite () {
+      // 必填驗證
+      const content = {
+        year: '請選擇年分',
+        month: '請選擇月份',
+        day: '請選擇日期',
+        time: '請選擇時間',
+        sex: '請勾選性別'
+      }
+      const key = ['year', 'month', 'day', 'time', 'sex']
+      key.forEach(element => {
+        const data = this.birthdayData[element]
+        if (data === 0 || data === null || data === undefined || isNaN(data) || !data) {
+          this.errMsg[element] = content[element]
+        } else {
+          delete this.errMsg[element]
+        }
+      })
+    },
     submit () {
+      this.mustWrite()
       this.earlyLateZSh()
       this.writeGanZhNum()
       this.timeGanZh()
       this.setGanZhNum(this.ganZhNumData)
       this.setBirthday(this.birthdayData)
+      if (Object.keys(this.errMsg).length === 0) {
+        this.$router.replace('/Index')
+      }
     },
     dayCount () {
       // 計算選擇的月有幾天
