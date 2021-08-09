@@ -92,7 +92,6 @@
           <button class="btn btn-primary" type="submit" @click.prevent="submit">送出</button>
       </div>
     </form>
-
   </div>
 </template>
 

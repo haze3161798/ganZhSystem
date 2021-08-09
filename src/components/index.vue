@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container py-4" style="max-width:500px">
+    <section class="container py-4" style="max-width:500px">
       <div class="pt-2 pb-5">
         <div class="text-center pb-2">
           <h1 class="fw-bold">命主資料</h1>
@@ -10,13 +10,13 @@
             <div>
               <div>
                 <span class="me-2">姓名</span>
-                <span>{{birthday.name}}</span>
+                <span>{{userName}}</span>
               </div>
               <div>
                 <span class="me-2">生日</span>
-                <span>{{birthday.year}}年</span>
-                <span>{{birthday.month}}月</span>
-                <span>{{birthday.day}}日</span>
+                <span class="me-2">{{birthday.year}}年</span>
+                <span class="me-2">{{birthday.month}}月</span>
+                <span class="me-2">{{birthday.day}}日</span>
                 <span>{{diZh[ganZhNum.yearZh][0]}}時</span>
               </div>
             </div>
@@ -124,16 +124,35 @@
           <td >支十神</td>
         </tr>
       </table>
-    </div>
+    </section>
+    <section class="container"  style="max-width:500px">
+      <div>
+        <h1 class="text-center">
+          <span class="h2 fw-bold">個性分析</span>
+        </h1>
+        <div>
+          <span v-html="tanGanPersonality[1][0]"></span>
+          <span class="h5 d-block fw-bold my-2">【建議】</span>
+          <span v-html="tanGanPersonality[1][1]"></span>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
 <script>
+import tanGanPersonality from '../assets/tanGanPersonality.json'
 import { mapState } from 'vuex'
 // import solarLunar from 'solarlunar'
 export default {
+  created () {
+    if (this.birthday.year === 0) {
+      this.$router.replace('/')
+    }
+  },
   data () {
     return {
+      tanGanPersonality,
       chianQun: {
         1: '乾',
         2: '坤'
@@ -281,6 +300,16 @@ export default {
         }
       }
       return data()
+    },
+    userName () {
+      const name = () => {
+        if (this.birthday.name === '') {
+          return '連名字都不填的懶惰鬼'
+        } else {
+          return this.birthday.name
+        }
+      }
+      return name()
     }
   }
 }
